@@ -21,10 +21,12 @@
         <div class="col-md-3 sm-6">
             <div class="card">
                 <img class="card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>">
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         <h5 class="card-title"><%= campground.name %></h5>
-                        <a href="" class="btn btn-outline-success btn-sm">View</a>
+                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-outline-success btn-sm">More Info</a>
                     </div>
+                    <p>
+                    </p>
                 </div>
             </div>
         <% }); %>
