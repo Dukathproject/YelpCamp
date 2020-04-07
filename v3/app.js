@@ -2,47 +2,31 @@ var express     = require("express"),
     app         = express(),
     bodyParser  = require("body-parser"),
     mongoose    = require("mongoose"),
-    Campground  = require("./models/campground");
+    Campground  = require("./models/campground"),
+    seedDB      = require("./seeds");
+
+
 
 //----------------------------
 //ejs extension cut
 app.set("view engine", "ejs");
-
 //use body-parser
 app.use(bodyParser.urlencoded({extended: true}));
-
 //Declare Atlas address
 const mongoDb_URI = "mongodb+srv://dukathTest:DukathProject1234@clustermongo-vw7vk.mongodb.net/yelp_camp?retryWrites=true&w=majority";
-
 //Connect to mongo db atlas  | || "mongodb://localhost/cat_app"| "mongodb://localhost/cat_app"
 mongoose.connect(mongoDb_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
-
 //Check message
 mongoose.connection.on("connected", () => {
     console.log("Mongoose is connected!");
 });
-//----------------------------
 
+//INITIALIZE SEED TO ADD AND DELETE CAMPS
+seedDB();
 //----------------------------
-//CAMPGROUND CREATE
-// Campground.create(
-//     {
-//         name: "Granite Hill",
-//         image:"https://images.unsplash.com/photo-1476041800959-2f6bb412c8ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-//         description: "This is a huge granite hill, no bathrooms, no water, Beautifull Granite!"
-//     }, function(err, campground){
-//         if(err){
-//             console.log(err);
-//         } else {
-//             console.log("NEWLY CREATED CAMPGROUND: ");
-//             console.log(campground);
-//         }
-//     })
-//----------------------------
-
 
 //----------------------------
 //ROUTES
@@ -90,10 +74,11 @@ app.post("/campgrounds", function(req, res){
 //SHOW MORE INFO ABOUT CAMPGROUNDS
 app.get("/campgrounds/:id", function(req, res){
     //find the campground with provided ID
-    Campground.findById(req.params.id, function(err, foundCampground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
         if(err){
             console.log(err);
         } else {
+            console.log(foundCampground);
             //render show template with that campground
             res.render("show", {campground: foundCampground});
         }
