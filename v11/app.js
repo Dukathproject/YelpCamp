@@ -26,7 +26,7 @@ app.use(function(req, res, next){
 
 
 //Declare Atlas address
-const mongoDb_URI = "mongodb+srv://dukathTest:DukathProject1234@clustermongo-vw7vk.mongodb.net/yelp_camp2?retryWrites=true&w=majority";
+const mongoDb_URI = "mongodb+srv://dukathTest:DukathProject1234@clustermongo-vw7vk.mongodb.net/yelp_camp_v11?retryWrites=true&w=majority";
 //Connect to mongo db atlas  | || "mongodb://localhost/cat_app"| "mongodb://localhost/cat_app"
 mongoose.connect(mongoDb_URI, {
     useNewUrlParser: true,
@@ -78,7 +78,10 @@ app.use("/campgrounds", campgroundRoutes);
 
 //----------------------------
 //server listen
-app.listen(3000, function(req, res) {
+// app.listen(3000, function(req, res) {
+//     console.log("YelpCamp server has started!");
+// });
+app.listen(process.env.PORT, process.env.IP, function(){
     console.log("YelpCamp server has started!");
 });
 //----------------------------
